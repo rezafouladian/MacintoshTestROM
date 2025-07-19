@@ -1,4 +1,4 @@
-; Machine definitions 
+; Catches for undefined values
     IFND MacPlus
 MacPlus     EQU     0
     ENDIF
@@ -23,6 +23,7 @@ MacII  EQU     0
 SE30  EQU     0
     ENDIF
 
+; Machine definitions
     IF MacPlus
 VIAOverlay  EQU     1
 Proc68000   EQU     1
@@ -59,12 +60,17 @@ Proc68000   EQU     0
 VBase       EQU     $50F00000
     ENDIF
 
+; More catches for undefined values
     IFND VIAOverlay
 VIAOverlay  EQU     1
     ENDIF
 
     IFND Proc68000
 Proc68000   EQU     1
+    ENDIF
+
+    IFND VBase
+VBase       EQU     $EFE1FE
     ENDIF
 
     IF Proc68000
