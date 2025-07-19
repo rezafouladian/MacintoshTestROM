@@ -84,12 +84,16 @@ vBufA       EQU     $1E00
     dc.l    TROMCode
     dc.l    WarmEntry
 
+    org     $F80088
+    dc.l    TROMCode
+
+
 ; ColdEntry
 ; Called early in ROM, usually before any startup tests or setup is done.
 ;
 ; Inputs    A1  Return address from caller
 ;
-; Note: The return address is not provided in the Macintosh Plus and below.
+; Note: The Macintosh 128/512K do not provide a return address in A1.
 ColdEntry:
     ; On systems that control the overlay with the VIA, we need to clear the
     ; overlay bit to gain access to RAM.
@@ -107,6 +111,8 @@ ColdEntry:
 ; Called later in ROM, usually after initial tests have run.
 ;
 ; Inputs    A1  Return address from caller
+;
+; Note: The Macintosh 128K/512K do not have this test point so this is unreachable on those models.
 WarmEntry:
 
     ; Your code here
@@ -115,9 +121,6 @@ WarmEntry:
 
 ; ExitToROM
 ExitToROM:
-    IF MacPlus
-    movea.l #$400062,A1
-    ENDIF
     IF PreMacPlus
     movea.l #$400044,A1
     ENDIF
