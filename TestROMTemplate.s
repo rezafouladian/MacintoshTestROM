@@ -79,20 +79,24 @@ TROMCode    EQU     $55AAAA55
 TROMCode    EQU     $AAAA5555
     ENDIF
 
+; VIA offsets
 vDIRA       EQU     $600
 vBufA       EQU     $1E00
 
+; Early entry point
     org     $F80000
     dc.l    TROMCode
     dc.l    ColdEntry
 
+; Entry point after tests
     org     $F80080
     dc.l    TROMCode
     dc.l    WarmEntry
 
+; Macintosh Plus only later entry point?
     org     $F80088
     dc.l    TROMCode
-
+    dc.l    WarmEntry2
 
 ; ColdEntry
 ; Called early in ROM, usually before any startup tests or setup is done.
@@ -124,6 +128,13 @@ WarmEntry:
     ; Your code here
 
     bra     ExitToROM
+
+WarmEntry2:
+
+    ; Your code here
+
+    bra     ExitToROM
+
 
 ; ExitToROM
 ExitToROM:
